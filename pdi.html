@@ -1,11 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Hadênia Rodrigues</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="/assets/favicon.png" />
     <link rel="stylesheet" href="/css/toc.css">
+
 </head>
+
 <body>
     <header>
         <div class="links">
@@ -16,31 +19,277 @@
     </header>
 
     <div id="wrapper">
-         <h1>Processamento Digital de Imagens</h1>
-        
-         <p>Descrição da Disciplina</p>
+        <h1>Processamento Digital de Imagens</h1>
+
+        <p>Descrição da Disciplina</p>
     </div>
 
     <div id="post">
-       <p>Questão 1</p> 
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        <p>Questão 1</p>
+        "Utilizando o programa exemplos/pixels.cpp como referência, implemente um programa regions.cpp. Esse programa
+        deverá solicitar ao usuário as coordenadas de dois pontos P1 e P2 localizados dentro dos limites do tamanho da
+        imagem e exibir que lhe for fornecida. Entretanto, a região definida pelo retângulo de vértices opostos
+        definidos pelos pontos P1 e P2 será exibida com o negativo da imagem na região correspondente.
+    </br></br>
         <div id="resposta">
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            <code class="language-"><pre>
+                /*
+                Desenvolvido por Hadênia Rodrigues
+                Exercício 1
+                */
+                
+                #include <iostream>
+                #include <opencv2/opencv.hpp>
+                
+                using namespace cv;
+                using namespace std;
+                
+                int main(int, char**){
+                  cv::Mat image; 
+                  int x1, x2, y1, y2;
+                
+                  image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
+                 
+                  //Entra com as coordenadas dos Pontos
+                  cout << "Digite as coordenadas do Ponto 1: ";
+                  cin >> x1;
+                  cin >> y1;
+                  cout << "Digite as coordenadas do Ponto 2: ";
+                  cin >> x2;
+                  cin >> y2;
+                
+                  //Adiciona o negativo na área escolhida
+                  for(int i=x1;i<x2;i++){
+                    for(int j=y1;j<y2;j++){
+                      image.at<uchar>(i,j)=255-image.at<uchar>(i,j);
+                    }
+                  }
+                  
+                  //Abre a imagem, verifica se não há erro
+                  if(!image.data)
+                    std::cout << "nao abriu a imagem" << std::endl;
+                
+                  cv::namedWindow("Ex1", cv::WINDOW_AUTOSIZE);
+                 
+                  cv::imshow("Ex1", image); 
+                
+                  //salva imagem
+                  imwrite("negativo.png", image); 
+                  cv::waitKey();
+                  return 0;
+                }
+               </pre></code>
+            </div>
+            <br>
+           <div id="imgresp">
+             Resultado utilizando o Ponto 1 = (40,40) e Ponto 2 = (100,200)  </br>
+            <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\negativo.png" alt="exercicio1">
+           </div>
         </div>
-    </div>
-    <br>
-   
-    <div id="post">
-        <p>Questão 1</p> 
-         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-         <div id="resposta">
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-         </div>
-     </div>
-     <br/>
+        <br>
 
-     
-    <br>
-    <script href="script.js"></script>
+        <div id="post">
+            <p>Questão 2</p>
+            Utilizando o programa exemplos/pixels.cpp como referência, implemente um programa trocaregioes.cpp. 
+            Seu programa deverá trocar os quadrantes em diagonal na imagem. Explore o uso da classe Mat e seus construtores para criar
+            as regiões que serão trocadas.
+            <div id="resposta">
+                <code class="language-"><pre>
+                  #include <iostream>
+                  #include <opencv2/opencv.hpp>
+                    
+                  using namespace cv;
+                  using namespace std;
+                    
+                  int main(int, char**){
+                    cv::Mat image, image2; 
+                    cv::Mat aux1, aux2, h, w;
+                    
+                    image= cv::imread("hadenia.png",cv::IMREAD_GRAYSCALE);    
+                    
+                     //Abre a imagem, verifica se não há erro
+                    if(!image.data)
+                      std::cout << "nao abriu a imagem" << std::endl;
+                    
+                    cv::namedWindow("original.png", cv::WINDOW_AUTOSIZE); 
+                    cv::imshow("original.png", image); 
+                    
+                    //Salvando quadrantes
+                    //Rect_ (x, y, width, height)
+                    Mat Q1(image, Rect(0,0,(image.size().width/2),(image.size().height/2)));
+                    Mat Q2(image, Rect((image.size().height/2),0,(image.size().width/2),(image.size().height/2)));
+                    Mat Q3(image, Rect(0,(image.size().height/2),(image.size().width/2),(image.size().height/2)));
+                    Mat Q4(image, Rect((image.size().height/2),(image.size().height/2),(image.size().width/2),(image.size().height/2)));
+                    
+                    //Concatenando os quadrantes na horizontal
+                    hconcat(Q4, Q3, aux1);
+                    hconcat(Q2, Q1, aux2);
+                    //Concatenando os quadrantes na vertical
+                    vconcat(aux1, aux2, image2);
+                     
+                    //Abre a imagem, verifica se não há erro
+                    if(!image.data)
+                      std::cout << "nao abriu a imagem" << std::endl;
+                    
+                    cv::namedWindow("Ex2", cv::WINDOW_AUTOSIZE); 
+                    cv::imshow("Ex2", image2); 
+                    
+                    //salva imagem
+                    imwrite("Ex2.png", image2); 
+                    cv::waitKey();
+                    return 0;
+                  }
+
+                </code></pre>
+                <div id="imgresp">
+                    Imagem original e Imagem após rodar algoritmo  </br>
+                   <img src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\ex2.png" alt="exercicio2" height="350" width="630">
+                  </div>
+            </div>
+        </div>
+        <br />
+        <div id="post">
+          <p>Questão  3.1</p>
+          Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena,
+          o processo de rotulação poderá ficar comprometido. Identifique a situação em que isso ocorre e proponha uma solução para este problema.
+          <div id="resposta">
+            Para resolver esse problema é possivel reiniciar a variável <code>nobjects</code> sempre que a mesma chega a 255, e com uma váriavel auxiliar
+            é possivel realizar a contagem de quantas vezes a variavel foi reiniciada.
+              <code class="language-"><pre>
+                </br>
+              /* Trecho do código que foi alterado para solução do problema*/
+              int nobjects, aux=0;
+
+                nobjects=0;
+                for(int i=0; i<height; i++){
+                  for(int j=0; j<width; j++){
+                    if(image.at<uchar>(i,j) == 255){
+                      // achou um objeto
+                      nobjects++;
+                      p.x=j;
+                      p.y=i;
+              
+                      if(nobjects == 255){
+                          aux++;
+                          nobjects = 0;   
+                      } 
+              
+                      // preenche o objeto com o contador
+                      cv::floodFill(image,p,nobjects);
+                            
+                    }
+                  }
+                }
+
+                std::cout << "a figura tem " << nobjects + (255*aux) << " bolhas\n";                
+
+              </code></pre>             
+          </div>
+          <p>Questão  3.2</p>
+          Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena.
+          Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. 
+          Não se pode presumir, a priori, que elas tenham buracos ou não.
+      </div>
+      <br />
+      <div id="post">
+        <p>Questão x</p>
+        "Descrição"
+        </br></br>
+        <div id="resposta">
+              <code class="language-"><pre>
+                "codigos aqui"
+                </pre></code>
+        </div>
+            <br>
+            <div id="imgresp">
+              "Comentarios"  </br>
+              <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+            </div>
+      </div>
+      </br>
+      <div id="post">
+        <p>Questão x</p>
+        "Descrição"
+        </br></br>
+        <div id="resposta">
+              <code class="language-"><pre>
+                "codigos aqui"
+                </pre></code>
+        </div>
+            <br>
+            <div id="imgresp">
+              "Comentarios"  </br>
+              <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+            </div>
+      </div>
+    </br>
+    <div id="post">
+      <p>Questão x</p>
+      "Descrição"
+      </br></br>
+      <div id="resposta">
+            <code class="language-"><pre>
+              "codigos aqui"
+              </pre></code>
+      </div>
+          <br>
+          <div id="imgresp">
+            "Comentarios"  </br>
+            <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+          </div>
+    </div>
+    </br>
+      <div id="post">
+        <p>Questão x</p>
+        "Descrição"
+        </br></br>
+        <div id="resposta">
+              <code class="language-"><pre>
+                "codigos aqui"
+                </pre></code>
+        </div>
+            <br>
+            <div id="imgresp">
+              "Comentarios"  </br>
+              <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+            </div>
+      </div>
+    </br>
+      <div id="post">
+        <p>Questão x</p>
+        "Descrição"
+        </br></br>
+        <div id="resposta">
+              <code class="language-"><pre>
+                "codigos aqui"
+                </pre></code>
+        </div>
+            <br>
+            <div id="imgresp">
+              "Comentarios"  </br>
+              <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+            </div>
+      </div>
+    </br>
+    <div id="post">
+      <p>Questão x</p>
+      "Descrição"
+      </br></br>
+      <div id="resposta">
+            <code class="language-"><pre>
+              "codigos aqui"
+              </pre></code>
+      </div>
+          <br>
+          <div id="imgresp">
+            "Comentarios"  </br>
+            <img  src="C:\Users\haden\Desktop\Git Pages\hadenia.github.io\assets\.png" alt="exercicio1">
+          </div>
+    </div>
+
+
+        <br>
+        <script href="script.js"></script>
 </body>
+
 </html>
