@@ -95,6 +95,11 @@ header{
     border-radius: 10px;
 }
 
+#titulopost{
+    font-size: 25px;
+
+}
+
 #resposta{
     padding: 10px 10px 10px 10px;
     background: rgba(243, 239, 239, 0.1);

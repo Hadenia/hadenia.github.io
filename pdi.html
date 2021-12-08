@@ -25,19 +25,12 @@
     </div>
 
     <div id="post">
-        <p>Questão 1</p>
-        "Utilizando o programa exemplos/pixels.cpp como referência, implemente um programa regions.cpp. Esse programa
-        deverá solicitar ao usuário as coordenadas de dois pontos P1 e P2 localizados dentro dos limites do tamanho da
-        imagem e exibir que lhe for fornecida. Entretanto, a região definida pelo retângulo de vértices opostos
-        definidos pelos pontos P1 e P2 será exibida com o negativo da imagem na região correspondente.
+        <p id="titulopost">Exercício 1 - regions.cpp </p>
+        Foi implementado o programa regions.cpp, no exemplo pixels.cpp. Sendo solicitado ao usuário, dois pontos do quais determinariam 
+        uma região retangular na imagem, e está região seria apresentada o negativo da imagem original. A código implementado foi:
     </br></br>
         <div id="resposta">
             <code class="language-"><pre>
-                /*
-                Desenvolvido por Hadênia Rodrigues
-                Exercício 1
-                */
-                
                 #include <iostream>
                 #include <opencv2/opencv.hpp>
                 
@@ -82,82 +75,81 @@
             </div>
             <br>
            <div id="imgresp">
-             Resultado utilizando o Ponto 1 = (40,40) e Ponto 2 = (100,200)  </br>
-            <img  src=".\assets\negativo.png" alt="exercicio1">
+             Para a imagem a seguir foi utilizado o Ponto 1 = (40,40) e Ponto 2 = (100,200)  </br>
+            </br>
+             <img  src=".\assets\negativo.png" alt="exercicio1">
            </div>
         </div>
         <br>
 
         <div id="post">
-            <p>Questão 2</p>
-            Utilizando o programa exemplos/pixels.cpp como referência, implemente um programa trocaregioes.cpp. 
-            Seu programa deverá trocar os quadrantes em diagonal na imagem. Explore o uso da classe Mat e seus construtores para criar
-            as regiões que serão trocadas.
+          <p id="titulopost">Exercício 2 - regions.cpp</p>
+            Foi utilizado o trocaregiões.cpp para realizar a troca dos quadrantes em diagonal da imagem. Foi utilizada a imagem hadenia.png em escalda de cinza.
             <div id="resposta">
                 <code class="language-"><pre>
-                  #include <iostream>
-                  #include <opencv2/opencv.hpp>
+        #include <iostream>
+        #include <opencv2/opencv.hpp>
                     
-                  using namespace cv;
-                  using namespace std;
+        using namespace cv;
+        using namespace std;
                     
-                  int main(int, char**){
-                    cv::Mat image, image2; 
-                    cv::Mat aux1, aux2, h, w;
+        int main(int, char**){
+        cv::Mat image, image2; 
+        cv::Mat aux1, aux2, h, w;
                     
-                    image= cv::imread("hadenia.png",cv::IMREAD_GRAYSCALE);    
+        image= cv::imread("hadenia.png",cv::IMREAD_GRAYSCALE);    
                     
-                     //Abre a imagem, verifica se não há erro
-                    if(!image.data)
-                      std::cout << "nao abriu a imagem" << std::endl;
+        //Abre a imagem, verifica se não há erro
+        if(!image.data)
+        std::cout << "nao abriu a imagem" << std::endl;
                     
-                    cv::namedWindow("original.png", cv::WINDOW_AUTOSIZE); 
-                    cv::imshow("original.png", image); 
+        cv::namedWindow("original.png", cv::WINDOW_AUTOSIZE); 
+        cv::imshow("original.png", image); 
                     
-                    //Salvando quadrantes
-                    //Rect_ (x, y, width, height)
-                    Mat Q1(image, Rect(0,0,(image.size().width/2),(image.size().height/2)));
-                    Mat Q2(image, Rect((image.size().height/2),0,(image.size().width/2),(image.size().height/2)));
-                    Mat Q3(image, Rect(0,(image.size().height/2),(image.size().width/2),(image.size().height/2)));
-                    Mat Q4(image, Rect((image.size().height/2),(image.size().height/2),(image.size().width/2),(image.size().height/2)));
+        //Salvando quadrantes
+        //Rect_ (x, y, width, height)
+        Mat Q1(image, Rect(0,0,(image.size().width/2),(image.size().height/2)));
+        Mat Q2(image, Rect((image.size().height/2),0,(image.size().width/2),(image.size().height/2)));
+        Mat Q3(image, Rect(0,(image.size().height/2),(image.size().width/2),(image.size().height/2)));
+        Mat Q4(image, Rect((image.size().height/2),(image.size().height/2),(image.size().width/2),(image.size().height/2)));
                     
-                    //Concatenando os quadrantes na horizontal
-                    hconcat(Q4, Q3, aux1);
-                    hconcat(Q2, Q1, aux2);
-                    //Concatenando os quadrantes na vertical
-                    vconcat(aux1, aux2, image2);
+        //Concatenando os quadrantes na horizontal
+        hconcat(Q4, Q3, aux1);
+        hconcat(Q2, Q1, aux2);
+        //Concatenando os quadrantes na vertical
+        vconcat(aux1, aux2, image2);
                      
-                    //Abre a imagem, verifica se não há erro
-                    if(!image.data)
-                      std::cout << "nao abriu a imagem" << std::endl;
+        //Abre a imagem, verifica se não há erro
+        if(!image.data)
+        std::cout << "nao abriu a imagem" << std::endl;
                     
-                    cv::namedWindow("Ex2", cv::WINDOW_AUTOSIZE); 
-                    cv::imshow("Ex2", image2); 
+        cv::namedWindow("Ex2", cv::WINDOW_AUTOSIZE); 
+        cv::imshow("Ex2", image2); 
                     
-                    //salva imagem
-                    imwrite("Ex2.png", image2); 
-                    cv::waitKey();
-                    return 0;
-                  }
+        //salva imagem
+        imwrite("Ex2.png", image2); 
+        cv::waitKey();
+        return 0;
+        }          
 
                 </code></pre>
-                <div id="imgresp">
-                    Imagem original e Imagem após rodar algoritmo  </br>
-                   <img src=".\assets\ex2.png" alt="exercicio2" height="350" width="630">
+             </div>   <div id="imgresp">
+                  Como resultado do código acima, foi apresentado a imagem original (lado esquerdo) e a imagem após a troca de regiões (lado direito).</br>
+                </br> 
+                  <img src=".\assets\ex2.png" alt="exercicio2" height="350" width="630">
                   </div>
-            </div>
+            
         </div>
         <br />
         <div id="post">
-          <p>Questão  3.1</p>
-          Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena,
-          o processo de rotulação poderá ficar comprometido. Identifique a situação em que isso ocorre e proponha uma solução para este problema.
+          <p id="titulopost">Exercício 3.1 - labeling.cpp</p>
+          Para resolver esse problema da quantidade de objetos maior que 255, é possivel reiniciar a variável <code>nobjects</code> sempre que a mesma chega a 255, e com uma váriavel auxiliar
+            é possivel realizar a contagem de quantas vezes a variavel foi reiniciada. Abaixo o trecho do código que foi alterado para solução do problema.
+          
+         </br></br>
           <div id="resposta">
-            Para resolver esse problema é possivel reiniciar a variável <code>nobjects</code> sempre que a mesma chega a 255, e com uma váriavel auxiliar
-            é possivel realizar a contagem de quantas vezes a variavel foi reiniciada.
-              <code class="language-"><pre>
+            <code class="language-"><pre>
                 </br>
-              /* Trecho do código que foi alterado para solução do problema*/
               int nobjects, aux=0;
 
                 nobjects=0;
@@ -185,30 +177,132 @@
 
               </code></pre>             
           </div>
-          <p>Questão  3.2</p>
-          Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena.
-          Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. 
-          Não se pode presumir, a priori, que elas tenham buracos ou não.
       </div>
       <br />
       <div id="post">
-        <p>Questão x</p>
-        "Descrição"
+        <p id="titulopost">Exercício 3.2</p>       
+          Como melhoria do algoritmo de identificação de regiões. Foi realizado os seguintes passos:
+          <br><br>
+         <p> <b>Passo 1 - </b> Excluir objetos que tocam a bordas. Para isso foi feito o percuso de toda a borda da image, e ao encontrar um pixel de cor branca, chamou-se o floodFill do qual mudou sua cor para a cor de fundo. </p>  
+         <p> <b>Passo 2 - </b> Mudar a cor de fundo da imagem para outro tom de cinza. Para que depois faça a diferença entre bolhas com ou sem buracos.</p>
+         <p> <b>Passo 3 - </b> Contar as bolhas. Ao encontar uma bolha a mesma é pintado de outra cor de cinza (40).</p>
+         <p> <b>Passo 4 - </b> Conta quantas bolhas possuem buracos, através dos objetos pretos que possuem a imagem. Ao fim pinta-os com a mesma cor do passo 3.</p>
         </br></br>
-        <div id="resposta">
-              <code class="language-"><pre>
-                "codigos aqui"
-                </pre></code>
-        </div>
-            <br>
+
             <div id="imgresp">
-              "Comentarios"  </br>
-              <img  src=".\assets\.png" alt="exercicio1">
+              Passo 1 e Passo 2  </br>
+              <img  src=".\assets\ex32.png" alt="exercicio3">
+            </br></br>Passo 3 e Passo 4  </br>
+              <img  src=".\assets\ex322.png" alt="exercicio3">
+            </br></br>Resultado  </br>
+            <img  src=".\assets\rebolhas.png" alt="exercicio3">
+          </br></br>
+          Programa implementado:
             </div>
+      <div id="resposta">
+           <code class="language-"><pre>
+            #include <iostream>
+              #include <opencv2/opencv.hpp>
+              
+              using namespace cv;
+              using namespace std;
+              
+              int main(int argc, char** argv){
+                Mat image;
+                int width, height;
+              
+                CvPoint p;
+                image = imread(argv[1],CV_LOAD_IMAGE_GRAYSCALE);
+              
+                if(!image.data){
+                  std::cout << "Erro ao abrir imagem!\n";
+                  return(-1);
+                }
+                width=image.size().width;
+                height=image.size().height;
+              
+                p.x=0;
+                p.y=0;
+              
+              //Passo 1
+              //Percorre toda borda da imagem e retira os objetos
+                for(int i=0; i<height; i++){
+                  if(image.at<uchar>(0,i) == 255){
+                p.x=0;
+                p.y=i;
+                floodFill(image,p,0);
+                  }
+                }
+                for(int i=0; i<height; i++){
+                  if(image.at<uchar>(i,width-1) == 255){
+                p.x=width-1;
+                p.y=i;
+                floodFill(image,p,0);
+                  }
+                }
+                for(int j=0; j<width; j++){
+                  if(image.at<uchar>(0,j) == 255){
+                p.x=j;
+                p.y=0;
+                floodFill(image,p,0);
+                  }
+                }
+                for(int j=0; j<width; j++){
+                  if(image.at<uchar>(height-1,j) == 255){
+                p.x=j;
+                p.y=height-1;
+                floodFill(image,p,0);
+                  }
+                }
+              
+              //Passo 2
+              //mudando cor do fundo
+                p.x=0;
+                p.y=0;
+                floodFill(image,p,100);
+              
+              //Passo 3
+              //Conta a quantidade de bolhas
+                int numb = 0;
+                int numf = 0;
+                for(int i=0; i<height; i++){
+                  for(int j=0; j<width; j++){
+                    if(image.at<uchar>(i,j) == 255){
+                      numb++;
+                      p.x=j;
+                      p.y=i;
+                      floodFill(image,p,40);
+                    }
+                  }
+                }
+              
+                //Passo 4
+               // Conta quando bolhas possuem buraco e pinta elas na cor normal
+                for(int i=0; i<height; i++){
+                  for(int j=0; j<width; j++){
+                    if(image.at<uchar>(i,j) == 0){
+                      numf++;
+                      p.x=j;
+                      p.y=i;
+                      floodFill(image,p,40);
+                    }
+                  }
+                } 
+              
+                cout << numb << " bolhas foram encontradas." << endl;
+                cout << numf << " bolhas com furos foram encontradas." << endl;
+              
+                imshow("Resultado", image);
+                imwrite("resultado.png", image);
+                waitKey();
+                return 0;
+              }
+           </pre></code>
+      </div>
       </div>
       </br>
       <div id="post">
-        <p>Questão x</p>
+        <p id="titulopost">Questão x</p>
         "Descrição"
         </br></br>
         <div id="resposta">
@@ -224,7 +318,7 @@
       </div>
     </br>
     <div id="post">
-      <p>Questão x</p>
+      <p id="titulopost">Questão x</p>
       "Descrição"
       </br></br>
       <div id="resposta">
@@ -240,7 +334,7 @@
     </div>
     </br>
       <div id="post">
-        <p>Questão x</p>
+        <p id="titulopost">Questão x</p>
         "Descrição"
         </br></br>
         <div id="resposta">
@@ -256,7 +350,7 @@
       </div>
     </br>
       <div id="post">
-        <p>Questão x</p>
+        <p id="titulopost">Questão x</p>
         "Descrição"
         </br></br>
         <div id="resposta">
@@ -272,7 +366,7 @@
       </div>
     </br>
     <div id="post">
-      <p>Questão x</p>
+      <p id="titulopost">Questão x</p>
       "Descrição"
       </br></br>
       <div id="resposta">
